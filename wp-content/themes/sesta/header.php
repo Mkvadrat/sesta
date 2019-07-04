@@ -224,7 +224,39 @@ Version: 1.0
             </div>
         </div>
     </div>
-    <?php }else{ ?>
+    <?php }elseif(is_404()){ ?>
+    <div class="page__404 single__content">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 hidden-xs hidden-sm">
+                    <div class="menu__second">
+                        <?php
+                            if (has_nav_menu('header_b_menu')){
+                                wp_nav_menu( array(
+                                    'theme_location'  => 'header_b_menu',
+                                    'menu'            => '',
+                                    'container'       => false,
+                                    'container_class' => '',
+                                    'container_id'    => '',
+                                    'menu_class'      => '',
+                                    'menu_id'         => '',
+                                    'echo'            => true,
+                                    'fallback_cb'     => 'wp_page_menu',
+                                    'before'          => '',
+                                    'after'           => '',
+                                    'link_before'     => '',
+                                    'link_after'      => '',
+                                    'items_wrap'      => '<ul>%3$s</ul>',
+                                    'depth'           => 1,
+                                ) );
+                            }
+                        ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <?php }else{ ?> 
     <?php
         $image_url = wp_get_attachment_image_src( get_post_thumbnail_id(get_the_ID()), 'full'); 
     ?>
