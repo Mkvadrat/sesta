@@ -50,8 +50,8 @@ Version: 1.0
                             />
                         </a>
                     </div>
-                    <div class="col-xs-12 col-sm-4 col-lg-5"><p><?php echo getMeta('text_block_d_header_main_page'); ?></p></div>
-                    <div class="col-xs-12 col-sm-4 text-right"><?php echo getMeta('text_block_e_header_main_page'); ?></div>
+                    <div class="col-xs-12 col-sm-3 col-lg-4"><p><?php echo getMeta('text_block_d_header_main_page'); ?></p></div>
+                    <div class="col-xs-12 col-sm-5 text-right"><?php echo getMeta('text_block_e_header_main_page'); ?></div>
                 </div>
             </div>
         </div>

@@ -18,6 +18,8 @@ $(document).ready(function () {
         autoplay: true,
         loop: true,
         autoplayTimeout: 4000,
+		animateIn: 'fadeIn',
+		animateOut: 'fadeOut',
         navText: ["<img src='/wp-content/themes/sesta/image/left-arrow.svg'/>", "<img src='/wp-content/themes/sesta/image/right-arrow.svg'/>"],
         responsiveClass: true,
         responsive: {
@@ -29,33 +31,40 @@ $(document).ready(function () {
             }
         }
     });
+	
+if($(window).width() > 768){
+			$(".products__carousel.owl-carousel").trigger('destroy.owl.carousel');
+		} else {
+			$(".products__carousel.owl-carousel").owlCarousel({
+				items: 3,
+				nav: false,
+				dots: false,
+				margin: 18,
+				responsiveClass: true,
+				responsive: {
+					0: {
+						items: 1,
+						stagePadding: 50,
+						center: true,
+						startPosition: 1
+					},
+					768: {
+						items: 2,
+						stagePadding: 75,
+						center: true,
+						startPosition: 1
+					},
+					1200: {
+						items: 3,
+						stagePadding: 0,
+						startPosition: 0
+					}
+				}
+			});
+		}
+	
 
-    $(".products__carousel.owl-carousel").owlCarousel({
-        items: 3,
-        nav: false,
-        dots: false,
-        margin: 18,
-        responsiveClass: true,
-        responsive: {
-            0: {
-                items: 1,
-                stagePadding: 50,
-                center: true,
-                startPosition: 1
-            },
-            768: {
-                items: 2,
-                stagePadding: 75,
-                center: true,
-                startPosition: 1
-            },
-            1200: {
-                items: 3,
-                stagePadding: 0,
-                startPosition: 0
-            }
-        }
-    });
+    
 
     $(".recomm__grid.owl-carousel").owlCarousel({
         items: 4,
@@ -106,3 +115,36 @@ $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
 
 });
+
+$(window).resize(function () {
+		if($(window).width() > 768){
+			$(".products__carousel.owl-carousel").trigger('destroy.owl.carousel');
+		} else {
+			$(".products__carousel.owl-carousel").owlCarousel({
+				items: 3,
+				nav: false,
+				dots: false,
+				margin: 18,
+				responsiveClass: true,
+				responsive: {
+					0: {
+						items: 1,
+						stagePadding: 50,
+						center: true,
+						startPosition: 1
+					},
+					768: {
+						items: 2,
+						stagePadding: 75,
+						center: true,
+						startPosition: 1
+					},
+					1200: {
+						items: 3,
+						stagePadding: 0,
+						startPosition: 0
+					}
+				}
+			});
+		}
+	})

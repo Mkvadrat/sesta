@@ -1,6 +1,26 @@
 NextGEN Gallery
 by Imagely
 
+= V3.2.10 - 07.23.2019 =
+* Changed: Updated branding for Freemius opt-in
+* Fixed:   IGW queries
+
+= V3.2.8 - 07.16.2019 =
+* NEW:     Added support for the shortcode_atts_ngg filter
+* NEW:     Importing images from a folder now works recursively
+* Fixed:   'Scan folder for new images' did not assign a gallery preview image
+* Fixed:   AJAX actions like image uploads were failing if the default request to '/' went to an index.html instead of index.php
+* Fixed:   Admin page controllers / templates were running twice
+* Fixed:   Compatibility with Delightful Downloads
+* Fixed:   Compatibility with Elementor
+* Fixed:   Copying images to the Media Library was broken if the server lacked the fileinfo extension
+* Fixed:   Disable Manage Gallery's move/copy images submit button to prevent multiple submissions
+* Fixed:   Made 'Recover image from backup' reset thumbnail crop settings
+* Fixed:   Minor error emitted from common.js
+* Fixed:   Move Images / Copy Images now also moves/copies dynamically generated versions
+* Fixed:   The uninstall routine handler was generating a PHP warning accessing an undeclared variable
+* Fixed:   Zip uploads from some macOS users was failing
+
 = V3.2.4 - 06.04.2019 =
 * NEW:     Added some methods to the window.galleries object prototype for retrieving display settings
 * Secured: Zip extraction process (thanks to Slavco Mihajloski / @mslavco)

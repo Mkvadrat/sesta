@@ -4576,7 +4576,7 @@ class Mixin_GalleryStorage_Base_Getters extends Mixin
             if ($image->meta_data) {
                 $meta_data = is_object($image->meta_data) ? get_object_vars($image->meta_data) : $image->meta_data;
                 foreach ($meta_data as $key => $value) {
-                    if (is_array($value) && isset($value['width'])) {
+                    if (is_array($value) && isset($value['width']) && !in_array($key, $retval)) {
                         $retval[] = $key;
                     }
                 }
@@ -4848,22 +4848,38 @@ class Mixin_GalleryStorage_Base_Management extends Mixin
                 $image = $image_mapper->find($image);
             }
             if ($image_abspath = $this->object->get_image_abspath($image)) {
-                // Import the image
+                // Import the image; this will copy the main file
                 $new_image_id = $this->object->import_image_file($dst_gallery, $image_abspath, $image->filename);
                 if ($new_image_id) {
                     // Copy the properties of the old image
+                    $new_image = $image_mapper->find($new_image_id);
                     foreach (get_object_vars($image) as $key => $value) {
                         if (in_array($key, array('pid', 'galleryid', 'meta_data', 'filename', 'sortorder', 'extras_post_id'))) {
                             continue;
                         }
-                        $new_image = $image_mapper->find($new_image_id);
                         $new_image->{$key} = $value;
-                        $image_mapper->save($new_image);
                     }
+                    $image_mapper->save($new_image);
                     // Copy tags
                     $tags = wp_get_object_terms($image->pid, 'ngg_tag', 'fields=ids');
                     $tags = array_map('intval', $tags);
                     wp_set_object_terms($new_image_id, $tags, 'ngg_tag', true);
+                    // Copy all of the generated versions (resized versions, watermarks, etc)
+                    foreach ($this->get_image_sizes($image) as $named_size) {
+                        if (in_array($named_size, array('full', 'thumbnail'))) {
+                            continue;
+                        }
+                        $old_abspath = $this->object->get_image_abspath($image, $named_size);
+                        $new_abspath = $this->object->get_image_abspath($new_image, $named_size);
+                        if (is_array(stat($old_abspath))) {
+                            $new_dir = dirname($new_abspath);
+                            // Ensure the target directory exists
+                            if (@stat($new_dir) === FALSE) {
+                                wp_mkdir_p($new_dir);
+                            }
+                            @copy($old_abspath, $new_abspath);
+                        }
+                    }
                     // Mark as done
                     $retval[] = $new_image_id;
                 }
@@ -4972,8 +4988,12 @@ class Mixin_GalleryStorage_Base_Management extends Mixin
                         $this->object->correct_exif_rotation($image, TRUE);
                         // Re-create non-fullsize image sizes
                         foreach ($this->object->get_image_sizes($image) as $named_size) {
-                            if ($named_size == 'full') {
+                            if (in_array($named_size, array('full', 'backup'))) {
                                 continue;
+                            }
+                            // Reset thumbnail cropping set by 'Edit thumb' dialog
+                            if ($named_size === 'thumbnail') {
+                                unset($image->meta_data[$named_size]['crop_frame']);
                             }
                             $this->object->generate_image_clone($full_abspath, $this->object->get_image_abspath($image, $named_size), $this->object->get_image_size_params($image, $named_size));
                         }
@@ -5015,7 +5035,8 @@ class Mixin_GalleryStorage_Base_MediaLibrary extends Mixin
             // number of tries when the file with the same name is already exists
             $image_abspath = C_Gallery_Storage::get_instance()->get_image_abspath($image, "full");
             $new_file_path = $wordpress_upload_dir['path'] . '/' . $image->filename;
-            $new_file_mime = mime_content_type($image_abspath);
+            $image_data = getimagesize($image_abspath);
+            $new_file_mime = $image_data['mime'];
             while (file_exists($new_file_path)) {
                 $i++;
                 $new_file_path = $wordpress_upload_dir['path'] . '/' . $i . '_' . $image->filename;
@@ -5092,17 +5113,18 @@ class Mixin_GalleryStorage_Base_Upload extends Mixin
             return FALSE;
         }
         $fs = C_Fs::get_instance();
+        $retval = array('image_ids' => array());
         // Ensure that this folder has images
-        $i = 0;
         $files = array();
+        $directories = array();
         foreach (scandir($abspath) as $file) {
-            if ($file == '.' || $file == '..') {
+            if ($file == '.' || $file == '..' || strtoupper($file) == '__MACOSX') {
                 continue;
             }
             $file_abspath = $fs->join_paths($abspath, $file);
-            // The first directory is considered valid
-            if (is_dir($file_abspath) && $i === 0) {
-                $files[] = $file_abspath;
+            // Omit 'hidden' directories prefixed with a period
+            if (is_dir($file_abspath) && strpos($file, '.') !== 0) {
+                $directories[] = $file_abspath;
             } elseif ($this->is_image_file($file_abspath)) {
                 if ($filenames && array_search($file_abspath, $filenames) !== FALSE) {
                     $files[] = $file_abspath;
@@ -5113,14 +5135,19 @@ class Mixin_GalleryStorage_Base_Upload extends Mixin
                 }
             }
         }
-        if (empty($files)) {
+        if (empty($files) && empty($directories)) {
             return FALSE;
         }
         // Get needed utilities
         $gallery_mapper = C_Gallery_Mapper::get_instance();
-        // Sometimes users try importing a directory, which actually has all images under another directory
-        if (is_dir($files[0])) {
-            return $this->object->import_gallery_from_fs($files[0], $gallery_id, $create_new_gallerypath, $gallery_title, $filenames);
+        // Recurse through the directory and pull in all of the valid images we find
+        if (!empty($directories)) {
+            foreach ($directories as $dir) {
+                $subImport = $this->object->import_gallery_from_fs($dir, $gallery_id, $create_new_gallerypath, $gallery_title, $filenames);
+                if ($subImport) {
+                    $retval['image_ids'] = array_merge($retval['image_ids'], $subImport['image_ids']);
+                }
+            }
         }
         // If no gallery has been specified, then use the directory name as the gallery name
         if (!$gallery_id) {
@@ -5136,22 +5163,23 @@ class Mixin_GalleryStorage_Base_Upload extends Mixin
             }
         }
         // Ensure that we have a gallery id
-        if ($gallery_id) {
-            $retval = array('gallery_id' => $gallery_id, 'image_ids' => array());
-            foreach ($files as $file_abspath) {
-                $basename = pathinfo($file_abspath, PATHINFO_BASENAME);
-                if ($image_id = $this->import_image_file($gallery_id, $file_abspath, $basename, FALSE, FALSE, FALSE)) {
-                    $retval['image_ids'][] = $image_id;
-                }
-            }
-            // Add the gallery name to the result
-            if (!isset($gallery)) {
-                $gallery = $gallery_mapper->find($gallery_id);
-            }
-            $retval['gallery_name'] = $gallery->title;
-            return $retval;
+        if (!$gallery_id) {
+            return FALSE;
+        } else {
+            $retval['gallery_id'] = $gallery_id;
         }
-        return FALSE;
+        foreach ($files as $file_abspath) {
+            $basename = pathinfo($file_abspath, PATHINFO_BASENAME);
+            if ($image_id = $this->import_image_file($gallery_id, $file_abspath, $basename, FALSE, FALSE, FALSE)) {
+                $retval['image_ids'][] = $image_id;
+            }
+        }
+        // Add the gallery name to the result
+        if (!isset($gallery)) {
+            $gallery = $gallery_mapper->find($gallery_id);
+        }
+        $retval['gallery_name'] = $gallery->title;
+        return $retval;
     }
     /**
      * @param string $filename
