@@ -82,14 +82,8 @@ get_header();
                         </div>
                     </div>
                 </div>
-                <?php }else{ ?>
-                <div class="col-xs-12">
-                    <div class="products__carousel category__grid">
-                        <p>Продукция не найдена!</p>
-                    </div>
-                </div>
                 <?php } ?>
-                
+
                 <?php
                     $defaults = array(
                         'type' => 'array',
@@ -126,7 +120,56 @@ get_header();
                 </div>
             </div>
         </div>
+        
+         <?php
+            $albums = get_term_meta(get_queried_object()->term_id, 'albums_block_rubric_page', true);
+            
+            $all_data = array();
+            
+            foreach($albums as $album){
+                global $nggdb;
+                
+                $data_albums = $nggdb->find_album($album['ngg_id']);
+               
+                $all_data[$album['ngg_id']]['title'] = $data_albums->name;
+                $all_data[$album['ngg_id']]['thumbnail'] = nextgen_esc_url(nggdb::find_image($data_albums->previewpic)->cached_singlepic_file(728, 728, 'crop'));
+                $all_data[$album['ngg_id']]['url'] = get_permalink($data_albums->pageid); 
+            }
+        ?>
+        
+        <?php if($all_data){ ?>
+        <hr class="hr__full"/>
+
+        <div class="content">
+            <div class="block__4">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-3">
+                            <div class="title__block">
+                                <p>Фотографии <br> применения <br> сетки</p>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="grid__3 grid__gallery">
+                                <div class="row">
+                                    <?php foreach($all_data as $data){ ?>
+                                        <div class="col-xs-12 col-sm-6 col-lg-4">
+                                            <div class="item">
+                                                <div class="gallery__inner">
+                                                    <a href="<?php echo $data['url']; ?>" class="gallery__img" style="background-image: url('<?php echo $data['thumbnail']; ?>')"></a>
+                                                    <div class="gallery__title"><?php echo $data['title']; ?></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    <?php } ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
     </div>
-  
     
 <?php get_footer(); ?>

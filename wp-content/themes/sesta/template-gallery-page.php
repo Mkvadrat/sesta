@@ -28,7 +28,7 @@ get_header();
                                     <div class="col-xs-12 col-sm-6 col-lg-4">
                                         <div class="item">
                                             <div class="gallery__inner">
-                                                <a href="<?php echo nextgen_esc_url($image->imageURL); ?>" class="gallery__img" data-fancybox="images" style="background-image: url('<?php echo nextgen_esc_url($image->imageURL); ?>')"></a>
+                                                <a href="<?php echo nextgen_esc_url($image->imageURL); ?>" class="gallery__img" data-fancybox="images" data-caption="<?php echo htmlspecialchars_decode($image->alttext); ?>" style="background-image: url('<?php echo nextgen_esc_url($image->imageURL); ?>')"></a>
                                                 <div class="gallery__title"><?php echo $image->alttext; ?></div>
                                             </div>
                                         </div>

@@ -46,7 +46,7 @@ function mk_scripts(){
 		wp_enqueue_script( 'carousel-min', get_template_directory_uri() . '/js/owl.carousel.min.js', '', '', true );
 		wp_enqueue_script( 'parallax-min', get_template_directory_uri() . '/js/parallax.min.js', '', '', true );
 		wp_enqueue_script( 'custom-min', get_template_directory_uri() . '/js/custom.js', '', '', true );
-		wp_enqueue_script( 'maps-min', 'http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU', '', '', false );
+		wp_enqueue_script( 'maps-min', 'http://api-maps.yandex.ru/2.0/?apikey=86029023-52d4-407c-9bd8-83e3eb70ba61&load=package.full&lang=ru-RU', '', '', false );
 	}
 }
 add_action( 'wp_enqueue_scripts', 'mk_scripts' );

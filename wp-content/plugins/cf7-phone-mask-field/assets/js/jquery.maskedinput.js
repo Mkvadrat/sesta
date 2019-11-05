@@ -14,7 +14,7 @@
         definitions: {
             "_": "[0-9]",
             a: "[A-Za-z]",
-            "*": "[A-Za-z0-9]"
+            ".": "[A-Za-z0-9]"
         },
         autoclear: !0,
         dataName: "mask",
@@ -182,23 +182,39 @@
         }
     });
     
-    $(document).ready(function(){
-        // contact form 7 mask field
-        var $mask_fields = $('.wpcf7-mask');
+    // contact form 7 mask field    
+    $(document).ready(function(){        
+        var $fields = $('.wpcf7-mask');
         
-        if ( $mask_fields.length ) {
-            $mask_fields.each(function(){
-                var $this = $(this), data_mask = $this.data('mask');
+        if ( ! $fields.length ) {
+            return false;
+        }            
+            
+        $fields.each(function(){
+            var $this = $(this), 
+                mask = $this.data('mask');
                 
-                $this.mask( data_mask );
-                
-                if ( 'tel' != $this.attr('type') && -1 == data_mask.indexOf('*') && -1 == data_mask.indexOf('a') ) {
-                    $this.attr({
-                        'inputmode': 'numeric',
-                    });
-                }                
-                
+            if (!mask) {
+                return;
+            }                
+   
+            $this.mask(mask, {
+                'autoclear': getOption($this.data('autoclear')),
             });
-        }        
+                
+            if ('tel' != $this.attr('type') && -1 == mask.indexOf('.')) {
+                $this.attr({
+                    'inputmode': 'numeric',
+                });
+            }
+        });            
     });
+    
+    function getOption(valule) {
+        if (typeof valule == 'undefined') {
+            return 0;
+        }
+        
+        return valule;
+    } 
 });

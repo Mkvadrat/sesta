@@ -3,8 +3,8 @@ if(preg_match('#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'])) { die('You 
 
 /**
  * Plugin Name: NextGEN Gallery
- * Description: The most popular gallery plugin for WordPress and one of the most popular plugins of all time with over 26 million downloads.
- * Version: 3.2.10
+ * Description: The most popular gallery plugin for WordPress and one of the most popular plugins of all time with over 27 million downloads.
+ * Version: 3.2.19
  * Author: Imagely
  * Plugin URI: https://www.imagely.com/wordpress-gallery-plugin/nextgen-gallery/
  * Author URI: https://www.imagely.com
@@ -101,7 +101,7 @@ class C_NextGEN_Bootstrap
             }
         }
 		elseif (!($exception instanceof E_Clean_Exit)) {
-			ob_end_clean();
+			if (ob_get_level() > 0) ob_end_clean();
 			self::print_exception($exception);
 		}
 	}
@@ -714,7 +714,7 @@ class C_NextGEN_Bootstrap
 		define('NGG_PRODUCT_URL', path_join(str_replace("\\" , '/', NGG_PLUGIN_URL), 'products'));
 		define('NGG_MODULE_URL', path_join(str_replace("\\", '/', NGG_PRODUCT_URL), 'photocrati_nextgen/modules'));
 		define('NGG_PLUGIN_STARTED_AT', microtime());
-		define('NGG_PLUGIN_VERSION', '3.2.10');
+		define('NGG_PLUGIN_VERSION', '3.2.19');
 
 		define(
 			'NGG_SCRIPT_VERSION',

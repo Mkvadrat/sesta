@@ -3836,7 +3836,11 @@ class Mixin_GalleryStorage_Base_Dynamic extends Mixin
             // First we attempt to use ImageMagick if we can; it has a more robust method of calculation.
             if (!empty($dimensions['mime']) && $dimensions['mime'] == 'image/jpeg') {
                 $possible_quality = NULL;
-                if (extension_loaded('imagick') && class_exists('Imagick')) {
+                $try_image_magick = TRUE;
+                if (function_exists('is_wpe') && ($dimensions[0] >= 8000 || $dimensions[1] >= 8000)) {
+                    $try_image_magick = FALSE;
+                }
+                if ($try_image_magick && extension_loaded('imagick') && class_exists('Imagick')) {
                     $img = new Imagick($image_path);
                     if (method_exists($img, 'getImageCompressionQuality')) {
                         $possible_quality = $img->getImageCompressionQuality();
@@ -4060,6 +4064,9 @@ class Mixin_GalleryStorage_Base_Dynamic extends Mixin
         if ($generated && $save) {
             $this->object->update_image_dimension_metadata($image, $image_abspath);
         }
+        if ($generated) {
+            $generated->destruct();
+        }
     }
     public function update_image_dimension_metadata($image, $image_abspath)
     {
@@ -4109,6 +4116,9 @@ class Mixin_GalleryStorage_Base_Dynamic extends Mixin
         $generated = $this->object->generate_image_clone($image_abspath, $image_abspath, $this->object->get_image_size_params($image, 'full', $parameters), $parameters);
         if ($generated && $save) {
             $this->object->update_image_dimension_metadata($image, $image_abspath);
+        }
+        if ($generated) {
+            $generated->destruct();
         }
     }
     /**
@@ -4428,18 +4438,17 @@ class Mixin_GalleryStorage_Base_Getters extends Mixin
                 $dynthumbs = C_Dynamic_Thumbnails_Manager::get_instance();
                 $abspath = $this->object->get_image_abspath($image, $size, TRUE);
                 if ($abspath) {
-                    $dims = getimagesize($abspath);
+                    $dims = @getimagesize($abspath);
                     if ($dims) {
                         $retval['width'] = $dims[0];
                         $retval['height'] = $dims[1];
                     }
                 } elseif ($size == 'backup') {
                     $retval = $this->object->get_image_dimensions($image, 'full');
-                } else {
-                    if ($dynthumbs && $dynthumbs->is_size_dynamic($size)) {
-                        $new_dims = $this->object->calculate_image_size_dimensions($image, $size);
-                        $retval = array('width' => $new_dims['real_width'], 'height' => $new_dims['real_height']);
-                    }
+                }
+                if (!$retval && $dynthumbs && $dynthumbs->is_size_dynamic($size)) {
+                    $new_dims = $this->object->calculate_image_size_dimensions($image, $size);
+                    $retval = array('width' => $new_dims['real_width'], 'height' => $new_dims['real_height']);
                 }
             }
         }
@@ -4504,10 +4513,14 @@ class Mixin_GalleryStorage_Base_Getters extends Mixin
         // Get the image abspath
         $image_abspath = $this->object->get_image_abspath($image, $size);
         if ($dynthumbs->is_size_dynamic($size) && !file_exists($image_abspath)) {
-            $params = array('watermark' => false, 'reflection' => false, 'crop' => true);
-            $result = $this->generate_image_size($image, $size, $params);
-            if ($result) {
-                $image_abspath = $this->object->get_image_abspath($image, $size);
+            if (defined('NGG_DISABLE_DYNAMIC_IMG_URLS') && constant('NGG_DISABLE_DYNAMIC_IMG_URLS')) {
+                $params = array('watermark' => false, 'reflection' => false, 'crop' => true);
+                $result = $this->generate_image_size($image, $size, $params);
+                if ($result) {
+                    $image_abspath = $this->object->get_image_abspath($image, $size);
+                }
+            } else {
+                return NULL;
             }
         }
         // Assuming we have an abspath, we can translate that to a url
@@ -4556,10 +4569,25 @@ class Mixin_GalleryStorage_Base_Getters extends Mixin
         $retval = NULL;
         $image_id = is_numeric($image) ? $image : $image->pid;
         $key = strval($image_id) . $size;
+        $success = TRUE;
         if (!isset(self::$image_url_cache[$key])) {
-            self::$image_url_cache[$key] = $this->object->_get_computed_image_url($image, $size);
+            $url = $this->object->_get_computed_image_url($image, $size);
+            if ($url) {
+                self::$image_url_cache[$key] = $url;
+                $success = TRUE;
+            } else {
+                $success = FALSE;
+            }
         }
-        $retval = self::$image_url_cache[$key];
+        if ($success) {
+            $retval = self::$image_url_cache[$key];
+        } else {
+            $dynthumbs = C_Dynamic_Thumbnails_Manager::get_instance();
+            if ($dynthumbs->is_size_dynamic($size)) {
+                $params = $dynthumbs->get_params_from_name($size);
+                $retval = $dynthumbs->get_image_url($image, $params);
+            }
+        }
         return apply_filters('ngg_get_image_url', $retval, $image, $size);
     }
     /**
@@ -4995,7 +5023,10 @@ class Mixin_GalleryStorage_Base_Management extends Mixin
                             if ($named_size === 'thumbnail') {
                                 unset($image->meta_data[$named_size]['crop_frame']);
                             }
-                            $this->object->generate_image_clone($full_abspath, $this->object->get_image_abspath($image, $named_size), $this->object->get_image_size_params($image, $named_size));
+                            $thumbnail = $this->object->generate_image_clone($full_abspath, $this->object->get_image_abspath($image, $named_size), $this->object->get_image_size_params($image, $named_size));
+                            if ($thumbnail) {
+                                $thumbnail->destruct();
+                            }
                         }
                         do_action('ngg_recovered_image', $image);
                         // Reimport all metadata

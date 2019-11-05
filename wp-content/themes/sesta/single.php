@@ -17,8 +17,9 @@ get_header();
                 <div class="row">
                     <div class="col-xs-12 col-lg-10 col-lg-offset-1">
 
-                        <div class="bg__video">
-                            <a data-fancybox href="<?php echo get_field('link_videos_single_page'); ?>" class="iframe btn btn-video"><img src="/wp-content/themes/sesta/image/play.svg" alt="play"/>Смотреть видео</a>
+                        <div class="bg__video" style="background-image: url('<?php echo get_field('images_videos_single_page') ? get_field('images_videos_single_page') : '/wp-content/themes/sesta/image/bg-video.jpg'; ?>')">
+                            <a data-fancybox href="<?php echo get_field('link_videos_single_page'); ?>" class="iframe btn btn-video">
+                            <img src="/wp-content/themes/sesta/image/play.svg" alt="play"/>Смотреть видео</a>
                         </div>
 
                         <div class="block__info">
@@ -195,7 +196,7 @@ get_header();
                             <div class="panel panel-default">
                                 <div class="panel-heading" role="tab" id="headingOne">
                                     <h4 class="panel-title">
-                                        <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        <a role="button" data-toggle="collapse" data-target="#collapseOne" data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne">
                                             <img src="/wp-content/themes/sesta/image/plus.svg" alt="plus"/><?php echo $block_b['title_accordion_a_single_page']; ?>
                                         </a>
                                     </h4>
@@ -210,7 +211,7 @@ get_header();
                                 <div class="panel-heading" role="tab" id="headingTwo">
                                     <h4 class="panel-title">
                                         <a class="collapsed" role="button" data-toggle="collapse"
-                                           data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                           data-parent="#accordion" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
                                             <img src="/wp-content/themes/sesta/image/plus.svg" alt="plus"/><?php echo $block_b['title_accordion_b_single_page']; ?>
                                         </a>
                                     </h4>
@@ -254,7 +255,7 @@ get_header();
                             <div class="item">
                                 <a href="<?php echo get_permalink($service->ID); ?>" class="products__inner">
                                     <?php
-                                        $image_url = get_field('image_single_page', get_the_ID());
+                                        $image_url = get_field('image_single_page', $service->ID);
                                     ?>
                                     <div class="products__img" style="background-image: url('<?php echo $image_url ? $image_url : esc_url( get_template_directory_uri() ) . '/image/no_image.jpg' ?>')"></div>
                                     <div class="products__title"><?php echo $service->post_title; ?></div>

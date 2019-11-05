@@ -51,7 +51,7 @@ Version: 1.0
                         </a>
                     </div>
                     <div class="col-xs-12 col-sm-3 col-lg-4"><p><?php echo getMeta('text_block_d_header_main_page'); ?></p></div>
-                    <div class="col-xs-12 col-sm-5 text-right"><?php echo getMeta('text_block_e_header_main_page'); ?></div>
+                    <div class="col-xs-12 col-sm-5 ppb"><?php echo getMeta('text_block_e_header_main_page'); ?></div>
                 </div>
             </div>
         </div>
@@ -219,7 +219,7 @@ Version: 1.0
                 </div>
                 <div class="col-xs-12 col-md-10 col-md-offset-1">
                     <h1><?php the_title(); ?></h1>
-                    <?php echo getMeta('short_description_all_page'); ?>
+                    <?php echo get_field('short_description_all_page', get_the_ID()); ?>
                 </div>
             </div>
         </div>
@@ -290,7 +290,7 @@ Version: 1.0
                 </div>
                 <div class="col-xs-12 col-md-10 col-md-offset-1">
                     <h1><?php the_title(); ?></h1>
-                    <?php echo getMeta('short_description_all_page'); ?>
+                    <?php echo get_field('short_description_all_page', get_the_ID()); ?>
                 </div>
             </div>
         </div>

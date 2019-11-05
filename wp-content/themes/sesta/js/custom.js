@@ -17,7 +17,7 @@ $(document).ready(function () {
         video: true,
         autoplay: true,
         loop: true,
-        autoplayTimeout: 4000,
+        autoplayTimeout: 5000,
 		animateIn: 'fadeIn',
 		animateOut: 'fadeOut',
         navText: ["<img src='/wp-content/themes/sesta/image/left-arrow.svg'/>", "<img src='/wp-content/themes/sesta/image/right-arrow.svg'/>"],
@@ -72,6 +72,11 @@ if($(window).width() > 768){
         dots: false,
         margin: 18,
         responsiveClass: true,
+        autoplay : true,
+		autoplaySpeed: 3000,
+		navSpeed: 3000,
+        loop: true,
+        autoplayTimeout : 5000,
         responsive: {
             0: {
                 items: 1,
@@ -113,6 +118,15 @@ if($(window).width() > 768){
     });
 
     $('[data-toggle="tooltip"]').tooltip();
+	
+	$('a[href*="#"]').on("click", function(e){
+		var anchor = $(this);
+		$('html, body').stop().animate({
+		scrollTop: $(anchor.attr('href')).offset().top
+		}, 777);
+		e.preventDefault();
+		return false;
+	});
 
 });
 

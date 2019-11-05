@@ -2,7 +2,7 @@
 # This file is distributed under the same license as the Plugins - Contact Form 7 &#8211; Phone mask field - Development (trunk) package.
 msgid ""
 msgstr ""
-"PO-Revision-Date: 2019-01-06 10:43:28+0000\n"
+"PO-Revision-Date: 2019-08-25 16:26:48+0000\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Language: ru\n"
 "Project-Id-Version: Plugins - Contact Form 7 &#8211; Phone mask field - Development (trunk)\n"
 
-#: cf7-phone-mask-field.php:247
+#: cf7-phone-mask-field.php:322
 msgid "Placeholder"
 msgstr "Placeholder"
 
@@ -27,42 +27,42 @@ msgstr "Плагин добавляет новое текстовое поле �
 msgid "Contact Form 7 - Phone mask field"
 msgstr "Contact Form 7 - Маска телефонного номера"
 
-#: cf7-phone-mask-field.php:271
+#: cf7-phone-mask-field.php:346
 msgid "Insert Tag"
 msgstr "Вставить тег"
 
-#: cf7-phone-mask-field.php:257
+#: cf7-phone-mask-field.php:332
 msgid "Class attribute"
-msgstr "атрибут класса"
+msgstr "атрибут class"
 
-#: cf7-phone-mask-field.php:252
+#: cf7-phone-mask-field.php:327
 msgid "Id attribute"
 msgstr "атрибут Id"
 
-#: cf7-phone-mask-field.php:242
+#: cf7-phone-mask-field.php:317
 msgid "Enter the mask for this field. <br /><code>Example: +_ (___) ___-__-__</code>"
 msgstr "Введите маску вводу.  <br /><code>Пример: +7 (921) ___-__-__</code>"
 
-#: cf7-phone-mask-field.php:240
+#: cf7-phone-mask-field.php:315
 msgid "Mask"
 msgstr "Маска"
 
-#: cf7-phone-mask-field.php:234
+#: cf7-phone-mask-field.php:309
 msgid "Name"
 msgstr "Имя"
 
-#: cf7-phone-mask-field.php:228
+#: cf7-phone-mask-field.php:303
 msgid "Required field"
 msgstr "Обязательное поле"
 
-#: cf7-phone-mask-field.php:224 cf7-phone-mask-field.php:227
+#: cf7-phone-mask-field.php:299 cf7-phone-mask-field.php:302
 msgid "Field type"
 msgstr "Тип поля"
 
-#: cf7-phone-mask-field.php:217
+#: cf7-phone-mask-field.php:292
 msgid "Generate a form-tag for a single-line plain text input field in which you can set the input mask."
-msgstr "Сгенерируйте поле ввода текста для которого можно установить маску ввода."
+msgstr "Сгенерируйте поле ввода текста которому можно установить маску."
 
-#: cf7-phone-mask-field.php:196
+#: cf7-phone-mask-field.php:271
 msgid "mask field"
 msgstr "маска ввода"

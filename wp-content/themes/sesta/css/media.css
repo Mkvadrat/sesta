@@ -17,7 +17,7 @@
 
 @media screen and (max-width: 1200px) {
     .menu__top .nav > li > a {
-        font-size: 20px;
+        font-size: 17px;
         line-height: 26px;
     }
 
@@ -290,6 +290,10 @@
 	
 	.top__phones__new span{
 		display: none;
+	}
+	
+	.top__phones__new p {
+		text-align: right;
 	}
 
 }
@@ -580,7 +584,28 @@
 		margin-left: 0;
 	}
 	.top__phones__new p span {
-		text-align: center;
+		text-align: right;
 	}
+	.block__content .table.table-responsive {
+		display: block;
+	}
+	.top__phones__new p {
+    text-align: right;
+}
+.ppb{
+	position: absolute;
+    right: 0;
+    width: auto;
+}
 
+}
+@media screen and (max-width: 500px) {
+	.ppb{
+	position: relative;
+    right: 0;
+    width: 100%;
+}
+	.top__phones__new p,.top__phones__new p span {
+    text-align: center;
+}
 }

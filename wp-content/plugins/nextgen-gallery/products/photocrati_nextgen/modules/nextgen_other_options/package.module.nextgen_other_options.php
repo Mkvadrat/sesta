@@ -176,8 +176,16 @@ class A_Image_Options_Form extends Mixin
                         $value = intval($value);
                         break;
                     case 'galSort':
+                        $value = esc_html($value);
+                        if (!in_array(strtolower($value), array_values($this->_get_image_sorting_options()))) {
+                            $value = 'sortorder';
+                        }
+                        break;
                     case 'galSortDir':
                         $value = esc_html($value);
+                        if (!in_array(strtoupper($value), array('ASC', 'DESC'))) {
+                            $value = 'ASC';
+                        }
                         break;
                     case 'relatedHeading':
                         $value = M_NextGen_Data::strip_html($value, TRUE);

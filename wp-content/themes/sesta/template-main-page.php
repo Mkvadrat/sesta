@@ -45,7 +45,7 @@ get_header();
         </div>
         
         <?php $block_b = get_field('content_block_b_main_page'); ?>
-        <div class="block__4 bg__rabitsa">
+        <div class="block__4 bg__rabitsa" id="whyInUs">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3">
@@ -86,7 +86,7 @@ get_header();
                                         <?php echo $block_b['wp_textarea_content_subblock_g_main_page']; ?>
                                     </div>
                                 </div>
-                                <div class="col-xs-12 col-sm-6 col-lg-4">
+                                <!--<div class="col-xs-12 col-sm-6 col-lg-4">
                                     <div class="item">
                                         <?php echo $block_b['wp_textarea_content_subblock_h_main_page']; ?>
                                     </div>
@@ -95,8 +95,55 @@ get_header();
                                     <div class="item">
                                         <?php echo $block_b['wp_textarea_content_subblock_i_main_page']; ?>
                                     </div>
-                                </div>
+                                </div>-->
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+             
+        <div class="block__2">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="title__block"><p><?php echo get_field('title_content_block_a_main_page'); ?></p></div>
+                    </div>
+                    
+                    <div class="col-xs-12 col-md-p-0">
+                        <div class="products__carousel owl-carousel">
+                            <?php
+                                $all_categories = get_categories('hide_empty=0&exclude=1');
+                                $category_link_array = array();
+                                foreach( $all_categories as $single_cat ){
+            
+                                $image_url = get_field('image_content_block_a_rubric_page', 'category_' . $single_cat->term_id);
+                            ?>
+                                <div class="item">
+                                    <a href="<?php echo get_category_link($single_cat->term_id); ?>" class="products__inner">
+                                        <div class="products__img" style="background-image: url('<?php echo $image_url ? $image_url : esc_url( get_template_directory_uri() ) . '/image/no_image.jpg' ?>')">
+                                            <div class="products__title"><?php echo $single_cat->name; ?></div>
+                                        </div>                                    
+                                    </a>
+                                </div>
+                            <?php
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="block__video main__video">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-xs-p-0">
+                        <div class="bg__video">
+                            <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+                                <source src="<?php echo get_field('short_link_video_block_b_main_page'); ?>" type="video/mp4">
+                            </video>
+                            <a data-fancybox href="<?php echo get_field('full_link_video_block_b_main_page'); ?>" class="iframe btn btn-video"><img src="wp-content/themes/sesta/image/play.svg" alt="play"/><?php echo get_field('title_video_block_b_main_page'); ?></a>
                         </div>
                     </div>
                 </div>
@@ -120,11 +167,19 @@ get_header();
                                         <script>	
                                             ymaps.ready(function () {
                                                 var myMap = new ymaps.Map('map', {
-                                                        center: [61.698653, 99.505405],
+                                                        center: [55.698653, 80.505405],
                                                         zoom: 3
                                                     }, {
                                                         searchControlProvider: 'yandex#search'
-                                                    }),
+                                                    });
+													
+													myMap.controls
+													// Кнопка изменения масштаба.
+													.add('zoomControl', { left: 5, top: 5 })
+													// Список типов карты
+													.add('typeSelector')
+													// Стандартный набор кнопок
+													.add('mapTools', { left: 35, top: 5 });
                                                     
                                                     <?php
                                                         $i = 0;
@@ -173,54 +228,7 @@ get_header();
                 </div>
             </div>
         </div>
-                
-        <div class="block__2">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12">
-                        <div class="title__block"><p><?php echo get_field('title_content_block_a_main_page'); ?></p></div>
-                    </div>
-                    
-                    <div class="col-xs-12 col-md-p-0">
-                        <div class="products__carousel owl-carousel">
-                            <?php
-                                $all_categories = get_categories('hide_empty=0&exclude=1');
-                                $category_link_array = array();
-                                foreach( $all_categories as $single_cat ){
-            
-                                $image_url = get_field('image_content_block_a_rubric_page', 'category_' . $single_cat->term_id);
-                            ?>
-                                <div class="item">
-                                    <a href="<?php echo get_category_link($single_cat->term_id); ?>" class="products__inner">
-                                        <div class="products__img" style="background-image: url('<?php echo $image_url ? $image_url : esc_url( get_template_directory_uri() ) . '/image/no_image.jpg' ?>')">
-                                            <div class="products__title"><?php echo $single_cat->name; ?></div>
-                                        </div>                                    
-                                    </a>
-                                </div>
-                            <?php
-                                }
-                            ?>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-		
-		<div class="block__video main__video">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xs-12 col-xs-p-0">
-                        <div class="bg__video">
-                            <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
-                                <source src="<?php echo get_field('short_link_video_block_b_main_page'); ?>" type="video/mp4">
-                            </video>
-                            <a data-fancybox href="<?php echo get_field('full_link_video_block_b_main_page'); ?>" class="iframe btn btn-video"><img src="wp-content/themes/sesta/image/play.svg" alt="play"/><?php echo get_field('title_video_block_b_main_page'); ?></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-				
+			
         <?php $image_url = wp_get_attachment_url(get_field('image_content_block_a_main_page')); ?>
         <div class="block__form" style="background-image: url('<?php echo $image_url ? $image_url : esc_url( get_template_directory_uri() ) . '/image/bg-form.jpg'; ?>')">
             <div class="container">

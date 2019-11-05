@@ -1,6 +1,26 @@
 NextGEN Gallery
 by Imagely
 
+= V3.2.19 - 10.30.2019 =
+* Fixed:   Conflict with Imagify and the Imagely Lightroom plugin
+* Fixed:   Ability to update image metadata from the Imagely Lightroom plugin
+
+= V3.2.18 - 09.18.2019 =
+* Fixed:   Ability to sort images by random
+* Fixed:   Large images failed to upload on WP Engine
+* Fixed:   Plupload translations not working
+
+= V3.2.15 - 09.10.2019 =
+* NEW:     Automatically retry loading dynamic thumbnail generation urls
+* NEW:     Use NGG_DISABLE_DYNAMIC_IMG_URLS constant to generate images in-process
+* Changed: Dynamic thumbnails are generated in their own PHP processes/url
+* Fixed:   Distorted images and thumbnails
+* Fixed:   Timeout when viewing large galleries
+* Fixed:   Memory optimizations when generating images
+
+= V3.2.11 - 08.27.2019 =
+* Secured: IGW queries (reported by Tin Duong of Fortinet's FortiGuard Labs)
+
 = V3.2.10 - 07.23.2019 =
 * Changed: Updated branding for Freemius opt-in
 * Fixed:   IGW queries
