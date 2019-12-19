@@ -154,7 +154,7 @@
 	}
 </style>
 
-<div class="swift-remove-ads"><a href="<?php echo esc_url(add_query_arg('subpage', 'upgrade-pro', menu_page_url(SWIFT_PERFORMANCE_SLUG, false)));?>"><?php esc_html_e('Remove Ads', 'swift-performance');?></a></div>
+<div class="swift-remove-ads"><a href="<?php echo esc_url(add_query_arg('subpage', 'upgrade-pro', menu_page_url(SWIFT_PERFORMANCE_SLUG, false)));?>"><?php esc_html_e('Don\'t like these ads?', 'swift-performance');?></a></div>
 
 <a class="swift-ad-container maxcdn swift-hidden" target="_blank" href="https://tracking.maxcdn.com/c/258716/3982/378">
 	<h3>Would you like <span>more speed?</span></h3>

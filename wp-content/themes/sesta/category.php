@@ -40,7 +40,20 @@ get_header();
                             </div>
                         </div>
                     </div>
-                    
+                    <div class="col-xs-12 col-sm-3"></div>
+                    <div class="col-xs-12 col-sm-9">
+					<div class="grid__1">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <div class="links__block">
+                                        <a href="<?php echo get_field('pricelist_content_block_a_main_page', 13); ?>" class="download__price"><img src="/wp-content/themes/sesta/image/downloadPrice.svg"/><?php echo get_field('title_pricelist_content_block_a_main_page', 13); ?></a>
+                                        <?php echo get_field('sub_pricelist_content_block_a_main_page', 13); ?>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>						
+					</div>
+					
                     <?php
                         $current_page = (get_query_var('paged')) ? get_query_var('paged') : 1;
                         $args = array(
@@ -126,14 +139,22 @@ get_header();
             
             $all_data = array();
             
-            foreach($albums as $album){
-                global $nggdb;
-                
-                $data_albums = $nggdb->find_album($album['ngg_id']);
-               
-                $all_data[$album['ngg_id']]['title'] = $data_albums->name;
-                $all_data[$album['ngg_id']]['thumbnail'] = nextgen_esc_url(nggdb::find_image($data_albums->previewpic)->cached_singlepic_file(728, 728, 'crop'));
-                $all_data[$album['ngg_id']]['url'] = get_permalink($data_albums->pageid); 
+            if($albums){
+                foreach($albums as $album){
+                    global $nggdb;
+                    
+                    $data_albums = $nggdb->find_album($album['ngg_id']);
+                   
+                    $all_data[$album['ngg_id']]['title'] = $data_albums->name;
+                    
+                    if($data_albums->previewpic){
+                        $all_data[$album['ngg_id']]['thumbnail'] = nextgen_esc_url(nggdb::find_image($data_albums->previewpic)->cached_singlepic_file(728, 728, 'crop'));
+                    }else{
+                        $all_data[$album['ngg_id']]['thumbnail'] = esc_url( get_template_directory_uri() ) . '/image/bg-prod.jpg';
+                    }
+                    
+                    $all_data[$album['ngg_id']]['url'] = get_permalink($data_albums->pageid); 
+                }
             }
         ?>
         
@@ -146,7 +167,7 @@ get_header();
                     <div class="row">
                         <div class="col-xs-12 col-sm-3">
                             <div class="title__block">
-                                <p>Фотографии <br> применения <br> сетки</p>
+                                <p>Фотогалерея</p>
                             </div>
                         </div>
                         <div class="col-xs-12 col-sm-9">

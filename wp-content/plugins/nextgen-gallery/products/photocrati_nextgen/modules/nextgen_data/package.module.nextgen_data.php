@@ -671,9 +671,12 @@ class Mixin_NextGen_Gallery_Validation
             if (!$this->object->name) {
                 $this->object->name = apply_filters('ngg_gallery_name', sanitize_file_name($sanitized_title));
             }
-            // If no slug is set, use the title to generate one
-            if (!$this->object->slug) {
-                $this->object->slug = preg_replace('|[^a-z0-9 \\-~+_.#=!&;,/:%@$\\|*\'()\\x80-\\xff]|i', '', $sanitized_title);
+            // Assign a slug; possibly updating the current slug if it was conceived by a method other than sanitize_title()
+            // NextGen 3.2.19 and older used a method adopted from esc_url() which would convert ampersands to "&amp;"
+            // and allow slashes in gallery slugs which breaks their ability to be linked to as children of albums
+            $sanitized_slug = sanitize_title($sanitized_title);
+            if (empty($this->object->slug) || $this->object->slug !== $sanitized_slug) {
+                $this->object->slug = $sanitized_slug;
                 $this->object->slug = nggdb::get_unique_slug($this->object->slug, 'gallery');
             }
         }
@@ -863,10 +866,8 @@ class Mixin_Gallery_Mapper extends Mixin
         }
         $slug = $entity->slug;
         $entity->slug = str_replace(' ', '-', $entity->slug);
-        // Note: we do the following to mimic the behaviour of esc_url so that slugs are always valid in URLs after escaping
-        $entity->slug = preg_replace('|[^a-z0-9 \\-~+_.#=!&;,/:%@$\\|*\'()\\x80-\\xff]|i', '', $entity->slug);
+        $entity->slug = sanitize_title($entity->slug);
         if ($slug != $entity->slug) {
-            // creating new slug for the gallery
             $entity->slug = nggdb::get_unique_slug($entity->slug, 'gallery');
         }
         $retval = $this->call_parent('_save_entity', $entity);

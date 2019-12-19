@@ -2,8 +2,8 @@
 Contributors: photocrati, imagely
 Tags: wordpress gallery plugin, gallery, nextgen, nextgen gallery, photo gallery, image gallery, photography, slideshow, images, photo, photo album, watermark
 Requires at least: 4.0.0
-Stable tag: 3.2.19
-Tested up to: 5.2.4
+Stable tag: 3.2.23
+Tested up to: 5.3.0
 License: GPLv2
 
 The most popular WordPress gallery plugin and one of the most popular plugins of all time with over 27 million downloads.
@@ -178,6 +178,23 @@ For more information, feel free to visit the official website for the NextGEN Ga
 
 
 == Changelog ==
+
+= V3.2.23 - 12.02.2019 =
+* NEW:     There is a new setting under Other Options > Misc to disable enqueueing FontAwesome entirely
+* Changed: WP-CLI commands have been namespaced and numerous new commands have been added
+* Fixed:   Add Gallery / Images page would instruct users to upload zip files even if the multisite settings disallowed it
+* Fixed:   Conflict with Elementor breaking the Attach-To-Post window styling
+* Fixed:   Corrected PHP warnings generated when creating the template & static override directory ('ngg') inside WP_CONTENT_DIR if write access isn't available
+* Fixed:   Gallery slug generation was broken when the gallery name included special characters and broke those galleries as album children
+* Fixed:   Improved performance on Manage Galleries page by simplifying query to count images belonging to galleries
+* Fixed:   Manage Galleries could generate a PHP warning when listing galleries created by users that have since been deleted
+* Fixed:   Shutter Reloaded's navigation icons were always missing
+* Fixed:   Slideshow widget was enqueueing a file that no exists
+* Fixed:   Two basic slideshow displays on one page would cause a JS error that broke their display
+* Fixed:   URL resolution for paginated galleries and dynamic thumbnails was broken if WordPress was in a sub-directory of a sub-directory install (split home & site url)
+
+= V3.2.21 - 11.20.2019 =
+* Changed: Small branding and color update
 
 = V3.2.19 - 10.30.2019 =
 * Fixed:   Conflict with Imagify and the Imagely Lightroom plugin

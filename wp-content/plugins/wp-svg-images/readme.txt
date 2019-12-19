@@ -3,8 +3,8 @@ Contributors: kubiq
 Donate link: https://kubiq.sk
 Tags: svg support, svg upload, svg thumbnail
 Requires at least: 3.0.1
-Tested up to: 5.0
-Stable tag: 3.0
+Tested up to: 5.3
+Stable tag: 3.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -20,6 +20,9 @@ Add SVG support to your WordPress web. You can upload SVG files, you can see the
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Changelog ==
+
+= 3.1 =
+* tested on WordPress 5.3
 
 = 3.0 =
 * added support for Beaver Builder media uploader

@@ -20,7 +20,7 @@ Version: 1.0
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-3"><p><?php echo getMeta('text_block_a_footer_main_page'); ?></p></div>
                 <div class="col-xs-12 col-sm-6 col-md-3"><small><?php echo getMeta('text_block_b_footer_main_page'); ?></small></div>
-                <div class="col-xs-12 col-sm-6 col-md-3"><a href="#callback" class="btn btn-call" data-toggle="modal" data-target="#callback">Написать нам</a></div>
+                <div class="col-xs-12 col-sm-6 col-md-3"><a class="btn btn-call" data-toggle="modal" data-target="#callback">Написать нам</a></div>
                 <div class="col-xs-12">
                     <hr>
                 </div>

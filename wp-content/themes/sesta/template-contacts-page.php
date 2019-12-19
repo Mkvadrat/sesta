@@ -53,6 +53,14 @@ get_header();
                                     <div id="sevastopol" style="width:100%; height:375px"></div>
                                 </td>
                             </tr>
+                            <tr>
+                                <td>
+                                    <div class="table__title"><span><?php echo get_field('title_f_block_contacts_page'); ?></span></div>
+                                </td>
+                                <td>
+                                    <?php echo get_field('wp_textarea_e_block_contacts_page'); ?>
+                                </td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>

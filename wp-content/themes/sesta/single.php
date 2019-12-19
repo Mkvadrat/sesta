@@ -270,7 +270,7 @@ get_header();
         </div>
 
         <?php if( have_rows('table_additional_information_single_page')){ ?>
-        <div class="block__4 bg__rabitsa">
+        <div class="block__4 bg__rabitsa" id="whyInUs">
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3">

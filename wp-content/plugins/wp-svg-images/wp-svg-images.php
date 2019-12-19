@@ -4,7 +4,7 @@ Plugin Name: WP SVG images
 Plugin URI: https://kubiq.sk
 Description: Full SVG Media support in WordPress
 Author: KubiQ
-Version: 3.0
+Version: 3.1
 Author URI: https://kubiq.sk
 */
 

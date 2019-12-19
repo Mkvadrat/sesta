@@ -267,9 +267,13 @@
     }
 	
 	.top__phones__new a{
-	font-size: 18px;
-    line-height: 26px;
-
+		font-size: 18px;
+		line-height: 26px;
+	}
+	
+	#whyInUs .grid__3 > .row {
+		display: flex;
+		flex-wrap: wrap;
 	}
 }
 
@@ -296,6 +300,12 @@
 		text-align: right;
 	}
 
+.links__block a {
+	width: 100%;
+}
+.header__middle .col-xs-12.ppb {
+	    padding-right: 60px;
+}
 }
 
 @media screen and (max-width: 767px) {
@@ -597,7 +607,22 @@
     right: 0;
     width: auto;
 }
-
+h2 {
+    font-size: 32px;
+    word-break: break-word;
+    line-height: normal;
+}
+.table__rounded td {
+    font-size: 12px;
+    line-height: 16px;
+}
+.table__rounded {
+    border-radius: 10px;
+    background: #fff;
+    border: 1px solid #bcbcbc;
+    margin-bottom: 29px;
+    overflow: auto;
+}
 }
 @media screen and (max-width: 500px) {
 	.ppb{
@@ -607,5 +632,25 @@
 }
 	.top__phones__new p,.top__phones__new p span {
     text-align: center;
+}
+h2 {
+    font-size: 28px;
+    line-height: normal;
+}
+
+.links__block2 a{
+    white-space: normal;
+}
+.header__middle .col-xs-12.ppb {
+	    padding-right: 15px;
+}
+.top__phones__new p {
+    width: 50%;
+}
+}
+@media screen and (max-width: 400px) {
+
+.top__phones__new p {
+    width: 100%;
 }
 }

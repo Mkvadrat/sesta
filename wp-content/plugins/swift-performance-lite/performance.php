@@ -3,7 +3,7 @@
  * Plugin Name: Swift Performance Lite
  * Plugin URI: https://swiftperformance.io
  * Description: Boost your WordPress site
- * Version: 2.1.1
+ * Version: 2.1.2
  * Author: SWTE
  * Author URI: https://swteplugins.com
  * Text Domain: swift-performance
@@ -70,7 +70,7 @@ if (!class_exists('Swift_Performance_Lite')) {
 			}
 
 			if (!defined('SWIFT_PERFORMANCE_VER')){
-				define('SWIFT_PERFORMANCE_VER', '2.1.1');
+				define('SWIFT_PERFORMANCE_VER', '2.1.2');
 			}
 
 			if (!defined('SWIFT_PERFORMANCE_DB_VER')){
@@ -174,7 +174,7 @@ if (!class_exists('Swift_Performance_Lite')) {
 
 			// Create dashboard widget
 			add_action( 'wp_dashboard_setup', function() {
-				$slug = 'swift_dashboard_widget_x';
+				$slug = 'swift_dashboard_ad_widget';
 				wp_add_dashboard_widget(
 				      $slug,
 			      	'Swift Performance',
@@ -191,26 +191,6 @@ if (!class_exists('Swift_Performance_Lite')) {
 
 				$wp_meta_boxes['dashboard']['normal']['core'] = $sorted_dashboard;
 			}, PHP_INT_MAX);
-
-			// Upgrade Ad
-			add_action('current_screen', function(){
-				if (isset($_GET['swift-hide-ad'])){
-					update_option('swift-performance-hide-upgrade', true);
-				}
-				else if (time() < 1567295999 && current_user_can('manage_options') && get_option('swift-performance-hide-upgrade') === false){
-					$screen = get_current_screen();
-					if ($screen->id == 'dashboard'){
-						add_filter('swift_performance_has_permanent_message', '__return_true');
-						wp_enqueue_style( 'swift-upgrade', SWIFT_PERFORMANCE_URI . 'templates/ads/assets/upgrade.css', array(), SWIFT_PERFORMANCE_VER );
-						wp_enqueue_script( 'vue', SWIFT_PERFORMANCE_URI . 'templates/ads/assets/vue.js', array(), SWIFT_PERFORMANCE_VER );
-						wp_enqueue_script( 'moments', SWIFT_PERFORMANCE_URI . 'templates/ads/assets/moments.js', array(), SWIFT_PERFORMANCE_VER );
-						add_action('admin_notices', function(){
-							include SWIFT_PERFORMANCE_DIR .  'templates/ads/upgrade.php';
-						});
-					}
-				}
-			});
-
 
 			// Init Swift Performance
 			$this->init();

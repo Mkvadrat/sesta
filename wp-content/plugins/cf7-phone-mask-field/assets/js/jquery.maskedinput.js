@@ -13,8 +13,8 @@
     $.mask = {
         definitions: {
             "_": "[0-9]",
-            a: "[A-Za-z]",
-            ".": "[A-Za-z0-9]"
+            //a: "[A-Za-z]",
+            //".": "[A-Za-z0-9]"
         },
         autoclear: !0,
         dataName: "mask",

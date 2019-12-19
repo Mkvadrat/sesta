@@ -2,7 +2,7 @@
 /*
 Plugin Name: Contact Form 7 - Phone mask field
 Description: This plugin adds a new field in which you can set the phone number entry mask or other to Contact Form 7.
-Version: 1.4
+Version: 1.4.1
 Author: Ruslan Heorhiiev
 Text Domain: cf7-phone-mask-field
 Domain Path: /assets/languages/
@@ -13,7 +13,7 @@ Copyright © 2019 Ruslan Heorhiiev
 if ( ! ABSPATH ) exit;
 
 define('WPCF7MF_MASK_NUMBER', '_');
-define('WPCF7MF_MASK_ANY',    '.');
+define('WPCF7MF_MASK_ANY',    ''); // empty
 
 /**
  * Функция инициализации плагина

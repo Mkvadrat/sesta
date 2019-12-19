@@ -131,6 +131,10 @@ get_header();
                             ?>
                         </div>
                     </div>
+					<div class="col-xs-12"><div class="links__block2">
+						<a href="<?php echo get_field('pricelist_content_block_a_main_page'); ?>" class="download__price"><img src="/wp-content/themes/sesta/image/downloadPrice.svg"/><?php echo get_field('title_pricelist_content_block_a_main_page'); ?></a>
+                        <?php echo get_field('sub_pricelist_content_block_a_main_page'); ?>
+                    </div></div>
                 </div>
             </div>
         </div>
@@ -155,7 +159,9 @@ get_header();
             <div class="container">
                 <div class="row">
                     <div class="col-xs-12 col-sm-3">
-                        <div class="title__block"><p><?php echo $block_c['title_content_subblock_a_main_page']; ?></p></div>
+                        <div class="title__block">
+                            <?php echo $block_c['title_content_subblock_a_main_page']; ?>
+                        </div>
                     </div>
                     <div class="col-xs-12 col-sm-9">
                         <div class="grid__1">
@@ -197,7 +203,11 @@ get_header();
                                                             
                                                             iconLayout: 'default#image',
                                                             iconImageHref: '<?php the_sub_field('iconimagehref_subblock_main_page'); ?>',
-                                                            iconImageSize: [46, 58],
+                                                            <?php
+                                                                $size = getimagesize(get_sub_field('iconimagehref_subblock_main_page'));
+                                                            ?>
+                                                            iconImageSize: [<?php echo isset($size[0]) ? $size[0] : ''; ?>, <?php echo isset($size[1]) ? $size[1] : ''; ?>],
+                                                            //iconImageSize: [46, 58],
                                                             iconImageOffset: [-23, -55]
                                                         }) <?php if($i == $count) {echo '';}else{echo ','; }?>
                                                     <?php } ?>

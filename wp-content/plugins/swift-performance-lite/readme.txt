@@ -2,7 +2,7 @@
 Contributors: swte, doit686868, hostmyblogco, fredawd
 Tags: cache, caching, seo, performance, optimizer, cdn, compression, speed
 Requires at least: 4.0
-Tested up to: 5.2.2
+Tested up to: 5.3
 Requires PHP: 5.6
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -122,6 +122,9 @@ Quick Setup, Page Cache, Cache Preloading, Gzip Compression, Browser Caching, Re
 
 == Changelog ==
 
+= 2.1.2 - 2019.12.02 =
+[FIX] Remove Summer Sale ad
+[IMPROVE] Improve WPML compatibility
 
 = 2.1.1 - 2019.09.30 =
 [FIX] Minor bugfixes

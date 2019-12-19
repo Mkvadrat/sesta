@@ -54,7 +54,7 @@
 
       <div class="swift-notice-buttonset">
             <a href="<?php echo add_query_arg('swift-hide-ad', 1, admin_url())?>" class="swift-btn swift-btn-black"><?php esc_html_e('Hide this ad', 'swift-performance');?></a>
-            <a href="<?php echo esc_url(add_query_arg('subpage', 'upgrade-pro', menu_page_url(SWIFT_PERFORMANCE_SLUG, false)));?>"><?php esc_html_e('Remove Ads', 'swift-performance');?></a>
+            <a href="<?php echo esc_url(add_query_arg('subpage', 'upgrade-pro', menu_page_url(SWIFT_PERFORMANCE_SLUG, false)));?>"><?php esc_html_e('Don\'t like these ads?', 'swift-performance');?></a>
       </div>
 </div>
 

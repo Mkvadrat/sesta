@@ -915,7 +915,24 @@ class Swift_Performance_Cache {
             // Try to get the page/post id
             $maybe_id = url_to_postid($permalink);
             if (!empty($maybe_id)){
-                  self::clear_post_cache($maybe_id);
+                  $cleared = false;
+
+                  // WPML support
+                  if (function_exists('icl_get_languages') && class_exists('SitePress')){
+                        $wpml_info = apply_filters('wpml_post_language_details', NULL, $maybe_id);
+                        if ($wpml_info['different_language']){
+                              global $sitepress;
+                              $sitepress->switch_lang($wpml_info['language_code']);
+                              self::clear_post_cache($maybe_id);
+                              $cleared = true;
+                              $sitepress->switch_lang($sitepress->get_current_language());
+                        }
+                  }
+
+                  // Clear cache here if WPML wasn't active
+                  if (!$cleared) {
+                        self::clear_post_cache($maybe_id);
+                  }
                   return;
             }
 
